@@ -1,0 +1,25 @@
+name: Export Feedback to Google Sheets
+
+on:
+  workflow_dispatch:
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - run: npm install
+      
+      - name: Create service account key file
+        run: echo '${{ secrets.GCP_SA_KEY }}' > serviceAccountKey.json
+      
+      - name: Run export to Лист1 (app_feedback)
+        run: node export.js
+      
+      - name: Run export to Лист2 (places_info)
+        run: node export2.js
